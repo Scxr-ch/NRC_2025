@@ -1,13 +1,16 @@
-void setup() {
-  // put your setup code here, to run once:
+#include <smorphi.h>
 
+Smorphi my_robot;
+
+void setup(){
+  Serial.begin(115200);
+  my_robot.BeginSmorphi();
 }
 
-void loop() {
-  // put your main code here, to run repeatedly:
-  my_robot.MoveForward(50);
-  delay(3000);
-  my_robot.MoveForward(50);
-  delay(3000);
+void loop(){
+  int front_sensor_status = my_robot.module0_sensor_status(1);
+  Serial.println(front_sensor_status);
+  if (front_sensor_status == HIGH) {
+  }
 
 }
