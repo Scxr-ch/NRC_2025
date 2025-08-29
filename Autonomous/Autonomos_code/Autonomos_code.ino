@@ -22,13 +22,11 @@ int command_block;
 
 int front_sensor_status;
 
-
 int right_sensor_status;
 
 int rear_sensor_status ;
 
 int left_sensor_status;
-my
 
 String last_DIR;
 
