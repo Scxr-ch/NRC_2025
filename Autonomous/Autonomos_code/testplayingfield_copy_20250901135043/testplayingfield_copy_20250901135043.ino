@@ -68,24 +68,20 @@ public:
     SensorReading reading;
     
     // Module 1: Front sensors (assuming module 1 is front-facing)
-    int front_sensor1 = robot.module1_sensor_status(1);
-    int front_sensor2 = robot.module1_sensor_status(2);
-    reading.front_clear = (front_sensor1 < OBSTACLE_THRESHOLD && front_sensor2 < OBSTACLE_THRESHOLD);
+    int front_sensor1 = robot.module1_sensor_status(0);
+    reading.front_clear = (front_sensor1 < OBSTACLE_THRESHOLD);
     
     // Module 2: Right sensors  
-    int right_sensor1 = robot.module2_sensor_status(1);
-    int right_sensor2 = robot.module2_sensor_status(2);
-    reading.right_clear = (right_sensor1 < OBSTACLE_THRESHOLD && right_sensor2 < OBSTACLE_THRESHOLD);
+    int right_sensor1 = robot.module1_sensor_status(4);
+    reading.right_clear = (right_sensor1 < OBSTACLE_THRESHOLD);
     
     // Module 3: Back sensors
-    int back_sensor1 = robot.module3_sensor_status(1);
-    int back_sensor2 = robot.module3_sensor_status(2);
-    reading.back_clear = (back_sensor1 < OBSTACLE_THRESHOLD && back_sensor2 < OBSTACLE_THRESHOLD);
+    int back_sensor1 = robot.module4_sensor_status(0);
+    reading.back_clear = (back_sensor1 < OBSTACLE_THRESHOLD);
     
     // Module 4: Left sensors
-    int left_sensor1 = robot.module4_sensor_status(1);
-    int left_sensor2 = robot.module4_sensor_status(2);
-    reading.left_clear = (left_sensor1 < OBSTACLE_THRESHOLD && left_sensor2 < OBSTACLE_THRESHOLD);
+    int left_sensor1 = robot.module2_sensor_status(0);
+    reading.left_clear = (left_sensor1 < OBSTACLE_THRESHOLD);
     
     return reading;
   }
