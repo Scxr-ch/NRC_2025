@@ -1,19 +1,80 @@
 #include <smorphi.h>
+int front_sensor_status;
+int left_sensor_status;
+int right_sensor_status;
+int back_sensor_status;
 Smorphi my_robot;
+
 void setup() {
   // put your setup code here, to run once:
   Serial.begin(115200);
   my_robot.BeginSmorphi();
 }
-bool run = true;
-void loop() {
-  // put your main code here, to run repeatedly:
-  while(run){
-  OneTileBack();
-  my_robot.stopSmorphi();
-  run = false;
+
+void sensor_initialisation() {
+  if ((my_robot.sm_getShape()) == ('i')) {
+    front_sensor_status = my_robot.module1_sensor_status(0);
+    left_sensor_status = my_robot.module1_sensor_status(4);
+    right_sensor_status = my_robot.module2_sensor_status(0);
+    back_sensor_status = my_robot.module4_sensor_status(0);
   }
-  
+}
+int lastmovement = 0; // Start with Forward
+
+void movementpattern()
+{
+  if(front_sensor_status == HIGH && left_sensor_status == HIGH)
+  {
+    my_robot.MoveRight(80);
+    lastmovement = 3; // Right
+  }
+  else if(front_sensor_status == HIGH && right_sensor_status == HIGH)
+  {
+    my_robot.MoveLeft(80);
+    lastmovement = 2; // Left
+  }
+  else if(front_sensor_status == HIGH)
+  {
+    my_robot.MoveBackward(80);
+    lastmovement = 1; // Backward
+  }
+  else if(back_sensor_status == HIGH)
+  {
+    my_robot.MoveForward(80);
+    lastmovement = 0; // Forward
+  }
+  else
+  {
+    if(lastmovement == 0){
+      my_robot.MoveForward(80);
+    }
+    else if(lastmovement == 1){
+      my_robot.MoveBackward(80);
+    }
+    else if(lastmovement == 2){
+      my_robot.MoveLeft(80);
+    }
+    else if(lastmovement == 3){
+      my_robot.MoveRight(80);
+    }
+  }
+}
+
+void loop() {
+  sensor_initialisation();
+  movementpattern();
+  Serial.println(lastmovement);  // Prints 0,1,2,3
+}
+
+
+
+bool run = true;
+void hardcode(){
+  while(run){
+    TwoTileBack();
+    my_robot.stopSmorphi();
+    run = false;
+  }
 }
 //moves 23.5cm
 void OneTileForward(){
@@ -37,7 +98,7 @@ void OneTileRight(){
   my_robot.MoveRight(90);
   delay(1210);
   my_robot.CenterPivotRight(90);
-  delay(1300);
+  delay(1100);
 }
 //48.5cm to the left
 void TwoTileLeft(){
@@ -58,3 +119,11 @@ void OneTileBack(){
   my_robot.MoveBackward(90);
   delay(940);
 }
+
+void TwoTileBack(){
+  my_robot.MoveBackward(90);
+  delay(2050);
+}
+
+
+
