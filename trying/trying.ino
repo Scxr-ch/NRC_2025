@@ -23,25 +23,29 @@ int lastmovement = 0; // Start with Forward
 
 void movementpattern()
 {
-  if(front_sensor_status == HIGH && left_sensor_status == HIGH)
+  if(front_sensor_status == LOW && left_sensor_status == LOW)
   {
     my_robot.MoveRight(80);
     lastmovement = 3; // Right
+    delay(3000);
   }
-  else if(front_sensor_status == HIGH && right_sensor_status == HIGH)
+  else if(front_sensor_status == LOW && right_sensor_status == LOW)
   {
     my_robot.MoveLeft(80);
     lastmovement = 2; // Left
+    delay(3000);
   }
-  else if(front_sensor_status == HIGH)
+  else if(front_sensor_status == LOW)
   {
     my_robot.MoveBackward(80);
     lastmovement = 1; // Backward
+    delay(3000);
   }
-  else if(back_sensor_status == HIGH)
+  else if(back_sensor_status == LOW)
   {
     my_robot.MoveForward(80);
     lastmovement = 0; // Forward
+    delay(3000);
   }
   else
   {
@@ -59,16 +63,14 @@ void movementpattern()
     }
   }
 }
-
+bool run = true;
 void loop() {
   sensor_initialisation();
   movementpattern();
-  Serial.println(lastmovement);  // Prints 0,1,2,3
 }
 
 
 
-bool run = true;
 void hardcode(){
   while(run){
     TwoTileBack();
